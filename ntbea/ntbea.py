@@ -165,7 +165,7 @@ class NTupleEvolutionaryAlgorithm():
         for eval in range(0, n_evaluations):
 
             # Evaluate the point (is repeated several times if n_sameples > 0)
-            fitness = np.mean([self._evaluator.evaluate(point) for sample_count in range(0, self._n_samples)])
+            fitness = np.mean([self._evaluator.evaluate(point) for _ in range(0, self._n_samples)])
 
             self._tuple_landscape.add_evaluated_point(point, fitness)
 
