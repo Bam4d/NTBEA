@@ -28,10 +28,10 @@ class OneMaxSearchSpace(SearchSpace):
         """
         The only valid values are 0 and 1 in all dimensions
         """
-        return [0,1]
+        return [0, 1]
 
     def get_size(self):
-        return 2**self._ndims
+        return 2 ** self._ndims
 
 
 class OneMaxEvaluator(Evaluator):
@@ -44,7 +44,6 @@ class OneMaxEvaluator(Evaluator):
 
 
 if __name__ == "__main__":
-
     logging.basicConfig(level=logging.INFO)
 
     max_dims = 10
@@ -54,11 +53,12 @@ if __name__ == "__main__":
     evaluator = OneMaxEvaluator()
 
     # 1-tuple, 2-tuple, 3-tuple and N-tuple
-    tuple_landscape = NTupleLandscape(search_space, [1, 2, 3, max_dims])
+    tuple_landscape = NTupleLandscape(search_space, [1, 2, max_dims])
 
     # Set the mutator type
     mutator = DefaultMutator(search_space)
 
-    evolutionary_algorithm = NTupleEvolutionaryAlgorithm(tuple_landscape, evaluator, search_space, mutator)
+    evolutionary_algorithm = NTupleEvolutionaryAlgorithm(tuple_landscape, evaluator, search_space, mutator,
+                                                         k_explore=2.0)
 
-    evolutionary_algorithm.run(100)
+    evolutionary_algorithm.run(200)

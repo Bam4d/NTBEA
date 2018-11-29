@@ -38,6 +38,7 @@ class DefaultMutator(Mutator):
 
     def mutate(self, point):
 
+        new_point = np.copy(point)
         length = len(point)
 
         # Perform swap mutation operation
@@ -48,18 +49,16 @@ class DefaultMutator(Mutator):
         if self._random_chaos_mutate:
             return self._search_space.get_random_point()
 
-        mutation_probability = self._mutation_point_probability / length
-
         # For each of the dimensions, we mutate it based on mutation_probability
         for dim in range(length):
-            if mutation_probability > np.random.uniform():
-                self._mutate_value(point, dim)
+            if self._mutation_point_probability > np.random.uniform():
+                self._mutate_value(new_point, dim)
 
         # If we want to force flip at least one of the points then we do this here
         if self._flip_at_least_one:
-            self._mutate_value(point, random.sample(range(length), 1))
+            self._mutate_value(new_point, random.sample(range(length), 1)[0])
 
-        return point
+        return new_point
 
 
 
