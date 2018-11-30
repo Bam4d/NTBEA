@@ -2,7 +2,7 @@ import logging
 import numpy as np
 
 from ntbea import SearchSpace, Evaluator, NTupleLandscape, NTupleEvolutionaryAlgorithm
-from examples.common import DefaultMutator
+from ntbea.common import DefaultMutator
 
 
 class OneMaxSearchSpace(SearchSpace):
