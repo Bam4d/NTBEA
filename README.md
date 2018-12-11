@@ -60,3 +60,4 @@ evolutionary_algorithm.run(5000)
 
 If you want to cite this library, please use the following DOI
 
+[![DOI](https://zenodo.org/badge/158810748.svg)](https://zenodo.org/badge/latestdoi/158810748)
