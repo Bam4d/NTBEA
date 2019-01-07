@@ -1,7 +1,17 @@
 [![PyPI version](https://badge.fury.io/py/NTBEA.svg)](https://badge.fury.io/py/NTBEA)
 
 # NTBEA
-An implementation of the [N-Tuple Evolutionary Algorithm](https://arxiv.org/pdf/1802.05991.pdf)
+An implementation of the [N-Tuple Bandit Evolutionary Algorithm](https://arxiv.org/pdf/1705.01080.pdf)
+
+```
+@inproceedings{NTBEA-Game-Tuning,
+  title={The N-Tuple Bandit Evolutionary Algorithm for Automatic Game Improvement},
+  author={Kunanusont, Kamolwan and Gaina, Raluca D. and Liu, Jialin and Perez-Liebana, Diego and Lucas, Simon M.},
+  booktitle={2017 IEEE Congress on Evolutionary Computation (CEC)},
+  note{\url{https://arxiv.org/pdf/1705.01080.pdf}},
+  year={2017}
+}
+```
 
 ## Installation
 
