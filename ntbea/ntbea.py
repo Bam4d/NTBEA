@@ -36,6 +36,9 @@ class SearchSpace(object):
     def get_random_point(self):
         raise NotImplementedError()
 
+    def sample_value_at(self):
+        raise NotImplementedError()
+
     def get_size(self):
         raise NotImplementedError()
 
@@ -224,13 +227,14 @@ class NTupleLandscape(BanditLandscapeModel):
     def get_best_sampled(self):
 
         current_best_mean = 0
-        current_best_point = None
+        current_best_point = list(self._sampled_points)[0]
         for point in self._sampled_points:
             mean = self.get_mean_estimtate(np.array(point))
 
             if mean > current_best_mean:
                 current_best_mean = mean
                 current_best_point = point
+
 
         return current_best_point
 
@@ -306,7 +310,7 @@ class NTupleEvolutionaryAlgorithm():
                 point = self._evaluate_landscape(point)
 
             # Evaluate the point (is repeated several times if n_samples > 0)
-            fitness = np.mean([self._evaluator.evaluate(point) for _ in range(0, self._n_samples)])
+            fitness = np.mean([self._evaluator.evaluate(self._search_space.sample_value_at(point)) for _ in range(0, self._n_samples)])
 
             self._logger.debug('Evaluated fitness: %.2f at %s' % (fitness, point))
 
@@ -315,7 +319,7 @@ class NTupleEvolutionaryAlgorithm():
 
             if eval % 10 == 0:
                 solution = self._tuple_landscape.get_best_sampled()
-                best_fitness = self._evaluator.evaluate(solution)
+                best_fitness = np.mean([self._evaluator.evaluate(self._search_space.sample_value_at(point)) for _ in range(0, self._n_samples)])
                 self._logger.info('Iterations: %d, Best fitness: %s, Solution: %s' % (eval, best_fitness, solution))
 
         # Once we have evaluated all the points, get the best one we have seen so far
