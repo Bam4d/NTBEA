@@ -1,3 +1,5 @@
+import sys
+
 import numpy as np
 import logging
 from collections import defaultdict
@@ -78,7 +80,7 @@ class BanditLandscapeModel(object):
     def add_evaluated_point(self, point, fitness):
         raise NotImplementedError()
 
-    def get_mean_estimtate(self, point):
+    def get_mean_estimate(self, point):
         raise NotImplementedError()
 
     def get_exploration_estimate(self, point):
@@ -180,7 +182,7 @@ class NTupleLandscape(BanditLandscapeModel):
             search_space_tuple_stats['sum'] += fitness
             search_space_tuple_stats['sum_squared'] += fitness ** 2
 
-    def get_mean_estimtate(self, point):
+    def get_mean_estimate(self, point):
         """
         Iterate over all the tuple stats we have stored for this point and sum the means and the number
         of stats we have found.
@@ -223,10 +225,10 @@ class NTupleLandscape(BanditLandscapeModel):
 
     def get_best_sampled(self):
 
-        current_best_mean = 0
+        current_best_mean = -sys.float_info.min
         current_best_point = None
         for point in self._sampled_points:
-            mean = self.get_mean_estimtate(np.array(point))
+            mean = self.get_mean_estimate(np.array(point))
 
             if mean > current_best_mean:
                 current_best_mean = mean
@@ -273,7 +275,7 @@ class NTupleEvolutionaryAlgorithm():
                 continue
 
             unique_neighbours += 1
-            exploit = self._tuple_landscape.get_mean_estimtate(potential_neighbour)
+            exploit = self._tuple_landscape.get_mean_estimate(potential_neighbour)
             explore = self._tuple_landscape.get_exploration_estimate(potential_neighbour)
 
             ucb_with_noise = exploit + self._k_explore * explore + np.random.uniform() * self._tie_break_noise
