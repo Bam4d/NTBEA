@@ -265,15 +265,20 @@ class NTupleEvolutionaryAlgorithm():
         unique_neighbours = 0
         current_best_ucb = 0
         current_best_neighbour = None
-
+        successive_neighbour_fails = 0
         # Loop until we have the required numbers of estimated neighbours
         while unique_neighbours < self._eval_neighbours:
             potential_neighbour = self._mutator.mutate(point)
 
             # If we already have estimates for this unique neighbour then just get a new one
             if tuple(potential_neighbour) in evaluated_neighbours:
+                successive_neighbour_fails += 1
+                if successive_neighbour_fails > 10000:
+                    raise RuntimeError(
+                        'Maximum attempts at finding a neighbour exceeded.  Check mutations are working correctly and eval_neighbours is set to a sensible value')
                 continue
 
+            successive_neighbour_fails = 0
             unique_neighbours += 1
             exploit = self._tuple_landscape.get_mean_estimate(potential_neighbour)
             explore = self._tuple_landscape.get_exploration_estimate(potential_neighbour)
